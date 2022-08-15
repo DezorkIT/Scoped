@@ -45,3 +45,8 @@ public extension Scoped where Self: Any {
         try block(self)
     }
 }
+
+func with<T, R>(_ reciever: T, block: (inout T) throws -> R) rethrows -> R {
+    var copy = reciever
+    return try block(&copy)
+}
