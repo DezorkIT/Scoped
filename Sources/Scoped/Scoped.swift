@@ -12,6 +12,7 @@ public extension Scoped where Self: Any {
     ///     print(adam)
     ///
     /// - NOTE: it copies value types and pointers
+    @discardableResult
     @inlinable
     func apply(_ block: (inout Self) throws -> Void) rethrows -> Self {
        var copy = self
@@ -25,6 +26,7 @@ public extension Scoped where Self: Any {
     ///     $0.image = UIImage(systemName: "iphone")
     ///     $0.contentMode = .scaleAspectFill
     ///     }
+    @discardableResult
     @inlinable
     func also(_ block: (Self) throws -> Void) rethrows -> Self {
         try block(self)
@@ -40,13 +42,16 @@ public extension Scoped where Self: Any {
     ///        return firstItem.count >= 5 ? firstItem : "!" + firstItem + "!"
     ///     }.uppercased()
     ///     print("First item after modifications: \(modifiedFirstItem)")
+    @discardableResult
     @inlinable
     func `let`<R>(_ block: (Self) throws -> R) rethrows -> R {
         try block(self)
     }
 }
 
-func with<T, R>(_ reciever: T, block: (inout T) throws -> R) rethrows -> R {
+@discardableResult
+@inlinable
+public func with<T, R>(_ reciever: T, block: (inout T) throws -> R) rethrows -> R {
     var copy = reciever
     return try block(&copy)
 }
