@@ -47,6 +47,20 @@ public extension Scoped where Self: Any {
     func `let`<R>(_ block: (Self) throws -> R) rethrows -> R {
         try block(self)
     }
+    
+    /// Returns self value if it satisfies the given `predicate` or `nil`, if it doesn't.
+    @discardableResult
+    @inlinable
+    func takeIf(_ predicate: (Self) throws -> Bool) rethrows -> Self? {
+        return try predicate(self) ? self : nil
+    }
+
+    /// Returns self value if it does `not` satisfy the given `predicate` or `nil`, if it does.
+    @discardableResult
+    @inlinable
+    func takeUnless(_ predicate: (Self) throws -> Bool) rethrows -> Self? {
+        return try !predicate(self) ? self : nil
+    }
 }
 
 @discardableResult
